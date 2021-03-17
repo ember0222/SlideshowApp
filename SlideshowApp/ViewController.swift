@@ -24,7 +24,8 @@ class ViewController: UIViewController {
     
     
     
-    @IBAction func 次へボタンした時(_ sender: Any) {
+    @IBAction func 次へボタンを押した時(_ sender: Any) {
+    
         
         if 画像番号 == 1{
             ImageView.image = UIImage(named:画像の名前[1])
@@ -41,5 +42,27 @@ class ViewController: UIViewController {
     }
     
 }
-
+   
+    @IBAction func 前へボタンを押した時(_ sender: Any) {
+    
+    
+       
+        if 画像番号 == 1{
+        ImageView.image = UIImage(named:画像の名前[1])
+        画像番号 = 0
+        
+        } else if 画像番号 == 0 {
+        ImageView.image = UIImage(named:画像の名前[3])
+        画像番号 = 2
+    
+        } else {
+        ImageView.image = UIImage(named:画像の名前[2])
+        画像番号 = 1
+    
+        }
+}
+    
+    @IBAction func 再生停止ボタン押した時(_ sender: Any) {
+    }
+    
 }
