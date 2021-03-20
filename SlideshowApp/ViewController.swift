@@ -9,10 +9,18 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var ImageView: UIImageView!
-    let 画像の名前 = ["img1", "img2", "img3"]
-    var 画像番号 = 1
+    @IBOutlet weak var imageView: UIImageView!
     
+    var images: [UIImage] = [
+        UIImage(named:"img1")!,
+        UIImage(named:"img2")!,
+        UIImage(named:"img3")!
+    ]
+    var imageIndex = 0
+    
+    var timer: Timer!
+    
+    var timer_sec: Float = 0
     
     
     
@@ -21,48 +29,69 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    
-    
-    
-    @IBAction func 次へボタンを押した時(_ sender: Any) {
-    
+    @objc func updateTimer(_ timer: Timer) {
         
-        if 画像番号 == 1{
-            ImageView.image = UIImage(named:画像の名前[1])
-            画像番号 = 2
-            
-        } else if 画像番号 == 2 {
-        ImageView.image = UIImage(named:画像の名前[2])
-        画像番号 = 3
+        self.timer_sec += 2.0
         
-        } else {
-            ImageView.image = UIImage(named:画像の名前[0])
-            画像番号 = 1
-        
+        self.timerLabel.text = String(format: "%.2f", self.timer_sec)
     }
     
+    
+    
+    
+    @IBAction func onNext(_ sender: Any) {
+    
+        
+        if imageIndex == 2 {
+            imageIndex = 0
+        } else {
+            imageIndex += 1
+        }
+        imageView.image = images[imageIndex]
+        
+        
 }
    
-    @IBAction func 前へボタンを押した時(_ sender: Any) {
+    @IBAction func onBack(_ sender: Any) {
     
-    
-       
-        if 画像番号 == 1{
-        ImageView.image = UIImage(named:画像の名前[1])
-        画像番号 = 0
-        
-        } else if 画像番号 == 0 {
-        ImageView.image = UIImage(named:画像の名前[3])
-        画像番号 = 2
-    
+        if imageIndex == 0 {
+            imageIndex = 2
         } else {
-        ImageView.image = UIImage(named:画像の名前[2])
-        画像番号 = 1
-    
+            imageIndex -= 1
         }
+        imageView.image = images[imageIndex]
 }
     
-    @IBAction func 再生停止ボタン押した時(_ sender: Any) {
+        
+    @IBAction func onPlayStop(_ sender: Any) {
+    
+        if self.timer == nil {
+            self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(updateTimer(_:)), userInfo: nil, repeats: true)
+        
+        
+       
+        onPlayStop.setTitle("停止", for: .normal)
+        
+    } else {
+        
+        self.timer.invalidete()
+        
+        self.timer = nil
+        
+        onPlayStop.setTitle("再生", for: .normal)
+    }
+}
+
+    @objc func changeImage() {
+        
+        imageIndex += 1
+        
+        if (imageIndex == images.count) {
+            
+            imageIndex = 0
+        }
+        
+        imageView.image = images[imageIndex]
     }
     
 }
